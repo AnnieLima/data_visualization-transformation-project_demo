@@ -1,14 +1,23 @@
 ---
 title: "Project"
-author: "Insert Name Here"
+author: "Annie Cavalcante"
 subtitle: "Investigation into Chicago taxis"
-echo: false
+echo: true
 bibliography: references.bib
 ---
 
-## Packages 
+## Description
+
+We are working with the data set **taxi**. This data set contains information about taxi trips in the city of Chicago in 2022.
+
+Chicago's taxi system operates through a mix of traditional cabs and app-based ride-hailing services. The city's taxis are regulated by the Department of Business Affairs and Consumer Protection (BACP), ensuring standardized fares, licensing, and safety measures. Taxis are easily identifiable by their medallion numbers and can be hailed on the street, at taxi stands, or requested via dispatch services.
+
+## Packages
+
+First things first, lets load our packages.
 
 ```{r}
+#| label: load-packages
 #| warning: false
 #| message: false
 library(tidyverse)
@@ -16,12 +25,44 @@ library(tidymodels)
 library(scales)
 ```
 
-## Question 1
+Let's have a look at the data set.
 
+```{r}
+#| label: load-dataset
+#| warning: false
+glimpse(taxi)
+```
 
-## Question 2 
+## Exploratory Data Analysis
 
+Let's dive into the data set. First, let's see what is the average distance of the trips by company.
 
-## Your own question 
+```{r}
+#| label: summary-data
+#| warning: false
+taxi |>
+  group_by(company) |>
+  summarise(distance_mean = mean(distance)) |>
+  arrange(desc(distance_mean))
+```
 
+We can see that the independent taxi drivers (Chicago Inpedents) make longer trips (mean = 7.07 miles). On the other hand, *Taxi Afilliation Services* make the shortest trips, with average of 4.33 miles.
 
+```{r}
+#| label: bar-graph
+#| warning: false
+ggplot(taxi, aes(y=company))+
+  geom_bar()+
+  scale_x_continuous(labels = label_number(big.mark = ","))+
+  labs(
+    title = "Taxi trips by company",
+    subtitle = "Chicago, 2022",
+    x = "Number of trips",
+    y = "Taxi company",
+    caption = "Source: Chicago Data Portal"
+  )+
+  theme_bw()
+  
+```
+
+## Let's explores
