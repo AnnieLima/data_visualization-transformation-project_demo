@@ -22,6 +22,7 @@ First things first, lets load our packages.
 #| message: false
 library(tidyverse)
 library(tidymodels)
+library(dplyr)
 library(scales)
 ```
 
@@ -65,4 +66,21 @@ ggplot(taxi, aes(y=company))+
   
 ```
 
-## Let's explores
+Exploring the number of trips by month to identify if it exist a relationship between the number of trips and the season.
+
+```{r}
+#| label: bar-graph
+#| warning: false
+set.seed(125)
+ggplot(taxi, aes(y = month))+
+  geom_bar()+
+  scale_x_continuous(labels = label_number(big.mark = ","))+
+  labs(
+    title = "Taxi trips by month",
+    subtitle = "Chicago, 2022",
+    x = "Number of trips",
+    y = "Month",
+    caption = "Source: Chicago Data Portal"
+  )+
+  theme_bw()
+```
